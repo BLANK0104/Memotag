@@ -22,6 +22,7 @@ sys.path.append(str(Path(__file__).resolve().parent))
 
 # Import project modules
 from src.data_processing.feature_extractor import FeatureExtractor
+from src.data_processing.acoustic_analyzer import AcousticAnalyzer
 from src.models.unsupervised_analyzer import UnsupervisedAnalyzer
 from src.visualization.visualizer import Visualizer
 
@@ -43,12 +44,14 @@ class VoiceAnalyzer:
             "Count backwards from 100 to 70",
             "Name as many animals as you can think of in 30 seconds",
             "Describe what you did yesterday in detail",
-            "Complete this sentence: The quick brown fox jumps over the...",
-            "What is today's date including the day of the week?"
+            "Complete this sentence: The quick brown fox jumps over the lazy dog",
+            "What is today's date including the day of the week?",
+            "Read this passage with emotion: 'All of us have moments in our lives that test our courage.'"
         ]
         
-        # Initialize feature extractor
+        # Initialize analyzers
         self.feature_extractor = FeatureExtractor()
+        self.acoustic_analyzer = AcousticAnalyzer()
         
         # Hesitation markers
         self.hesitation_markers = ['um', 'uh', 'er', 'ah', 'like', 'you know', 'hmm']
@@ -145,10 +148,40 @@ class VoiceAnalyzer:
                 print(f"Could not request results from speech recognition service; {e}")
                 return ""
     
-    def analyze_features(self, transcript, audio_duration):
-        """Extract cognitive features from transcript"""
+    def analyze_features(self, transcript, audio_duration, audio_path=None):
+        """Extract cognitive features from transcript and audio"""
         print("\nAnalyzing speech features...")
         
+        # Extract linguistic features (from transcript)
+        linguistic_features = self._analyze_linguistic_features(transcript, audio_duration)
+        
+        # Extract acoustic features if audio path is provided
+        acoustic_features = {}
+        acoustic_indicators = {}
+        if audio_path:
+            acoustic_features = self.acoustic_analyzer.extract_features(audio_path)
+            acoustic_indicators = self.acoustic_analyzer.get_cognitive_indicators()
+            
+            # Generate acoustic visualizations
+            viz_path = self.acoustic_analyzer.generate_visualizations(audio_path)
+            print(f"Acoustic analysis visualizations saved to: {viz_path}")
+        
+        # Combine all features
+        features = {**linguistic_features}
+        
+        # Add key acoustic indicators to the main features
+        for key, value in acoustic_indicators.items():
+            features[f'acoustic_{key}'] = value
+            
+        print(f"Extracted {len(features)} features ({len(linguistic_features)} linguistic, {len(acoustic_indicators)} acoustic indicators)")
+        
+        # Store full acoustic features separately (too many for regular display)
+        self.acoustic_features = acoustic_features
+            
+        return features
+    
+    def _analyze_linguistic_features(self, transcript, audio_duration):
+        """Extract linguistic features from transcript"""
         # Basic transcript metrics
         word_tokens = word_tokenize(transcript.lower())
         sentence_tokens = sent_tokenize(transcript)
@@ -190,9 +223,9 @@ class VoiceAnalyzer:
         
         # 9. Count animal names (for animal naming task)
         animal_list = ['dog', 'cat', 'bird', 'fish', 'cow', 'horse', 'sheep', 'goat', 
-                       'pig', 'chicken', 'duck', 'rabbit', 'mouse', 'rat', 'tiger', 
-                       'lion', 'elephant', 'bear', 'wolf', 'fox', 'deer', 'monkey', 
-                       'frog', 'snake', 'turtle', 'dolphin', 'whale', 'shark', 'octopus']
+                      'pig', 'chicken', 'duck', 'rabbit', 'mouse', 'rat', 'tiger', 
+                      'lion', 'elephant', 'bear', 'wolf', 'fox', 'deer', 'monkey', 
+                      'frog', 'snake', 'turtle', 'dolphin', 'whale', 'shark', 'octopus']
         
         animal_count = sum(animal in word_tokens for animal in animal_list)
         
@@ -219,11 +252,11 @@ class VoiceAnalyzer:
     def visualize_results(self, features):
         """Visualize the analyzed speech features"""
         # Create a figure with subplots
-        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+        fig, axs = plt.subplots(3, 2, figsize=(15, 14))
         
         # Plot 1: Speech metrics
         metrics = ['transcript_length', 'speech_rate_wpm', 'counting_sequence_length']
-        values = [features[metric] for metric in metrics]
+        values = [features.get(metric, 0) for metric in metrics]
         axs[0, 0].bar(metrics, values, color='skyblue')
         axs[0, 0].set_title('Speech Production Metrics')
         axs[0, 0].set_ylabel('Value')
@@ -231,7 +264,7 @@ class VoiceAnalyzer:
         
         # Plot 2: Hesitation and pause metrics
         metrics = ['hesitation_count', 'pause_count', 'word_finding_difficulty_count']
-        values = [features[metric] for metric in metrics]
+        values = [features.get(metric, 0) for metric in metrics]
         axs[0, 1].bar(metrics, values, color='salmon')
         axs[0, 1].set_title('Hesitation and Pause Metrics')
         axs[0, 1].set_ylabel('Count')
@@ -239,17 +272,43 @@ class VoiceAnalyzer:
         
         # Plot 3: Ratio metrics
         metrics = ['hesitation_ratio', 'pause_rate']
-        values = [features[metric] for metric in metrics]
+        values = [features.get(metric, 0) for metric in metrics]
         axs[1, 0].bar(metrics, values, color='lightgreen')
         axs[1, 0].set_title('Ratio Metrics')
         axs[1, 0].set_ylabel('Ratio')
         
         # Plot 4: Task-specific metrics
         metrics = ['animal_count', 'counting_errors']
-        values = [features[metric] for metric in metrics]
+        values = [features.get(metric, 0) for metric in metrics]
         axs[1, 1].bar(metrics, values, color='purple')
         axs[1, 1].set_title('Task-specific Metrics')
         axs[1, 1].set_ylabel('Count')
+        
+        # Plot 5: Acoustic indicators
+        acoustic_metrics = [k for k in features.keys() if k.startswith('acoustic_')]
+        if acoustic_metrics:
+            values = [features.get(metric, 0) for metric in acoustic_metrics]
+            labels = [m.replace('acoustic_', '') for m in acoustic_metrics]
+            axs[2, 0].bar(labels, values, color='orange')
+            axs[2, 0].set_title('Acoustic Indicators')
+            axs[2, 0].set_ylabel('Score')
+            axs[2, 0].tick_params(axis='x', rotation=45)
+            
+            # Plot 6: Overall risk score
+            if 'risk_score' in features:
+                axs[2, 1].bar(['Risk Score'], [features['risk_score']], 
+                            color='red' if features['risk_score'] > 0.6 else 
+                                 'orange' if features['risk_score'] > 0.3 else 'green')
+                axs[2, 1].set_title('Cognitive Risk Assessment')
+                axs[2, 1].set_ylabel('Risk Score')
+                axs[2, 1].set_ylim(0, 1)
+                
+                # Add threshold lines
+                axs[2, 1].axhline(y=0.3, color='green', linestyle='--', alpha=0.7)
+                axs[2, 1].axhline(y=0.6, color='red', linestyle='--', alpha=0.7)
+        else:
+            fig.delaxes(axs[2, 0])
+            fig.delaxes(axs[2, 1])
         
         plt.tight_layout()
         
@@ -263,20 +322,27 @@ class VoiceAnalyzer:
         This is a simple heuristic for demonstration purposes"""
         # Define weights for each feature (would be determined by clinical research)
         weights = {
-            'hesitation_ratio': 0.15,
-            'pause_rate': 0.1,
-            'speech_rate_wpm': -0.15,  # Lower speed may indicate issues (negative correlation)
-            'word_finding_difficulty_count': 0.2,
-            'counting_sequence_length': -0.1,  # Longer counting sequence is good
-            'counting_errors': 0.2,
-            'animal_count': -0.1  # More animals named is good
+            'hesitation_ratio': 0.10,
+            'pause_rate': 0.08,
+            'speech_rate_wpm': -0.10,  # Lower speed may indicate issues (negative correlation)
+            'word_finding_difficulty_count': 0.15,
+            'counting_sequence_length': -0.08,  # Longer counting sequence is good
+            'counting_errors': 0.15,
+            'animal_count': -0.08,  # More animals named is good
+            
+            # Acoustic features (if available)
+            'acoustic_vocal_stability': -0.07,  # Higher stability is good
+            'acoustic_articulation_precision': -0.07,  # Higher precision is good
+            'acoustic_rhythm_regularity': -0.07,  # Higher regularity is good
+            'acoustic_voice_quality': -0.05,  # Higher quality is good
+            'acoustic_energy_variability': -0.05   # Lower variability is good (higher score is better)
         }
         
         # Normalize feature values (simplified approach)
         normalized = {}
         
         # Speech rate normalization (typically 120-160 WPM is normal)
-        speech_rate = features['speech_rate_wpm']
+        speech_rate = features.get('speech_rate_wpm', 0)
         if speech_rate < 100:
             normalized['speech_rate_wpm'] = 0.8  # Very slow speech
         elif speech_rate < 120:
@@ -287,19 +353,20 @@ class VoiceAnalyzer:
             normalized['speech_rate_wpm'] = 0.4  # Fast speech can also indicate issues
         
         # Hesitation ratio normalization (0-0.15 is normal)
-        hesitation_ratio = features['hesitation_ratio']
+        hesitation_ratio = features.get('hesitation_ratio', 0)
         normalized['hesitation_ratio'] = min(1.0, hesitation_ratio * 5)
         
         # Pause rate normalization
-        pause_rate = features['pause_rate']
+        pause_rate = features.get('pause_rate', 0)
         normalized['pause_rate'] = min(1.0, pause_rate * 2)
         
         # Word finding difficulty normalization
-        word_finding = features['word_finding_difficulty_count'] / max(1, features['transcript_length'])
-        normalized['word_finding_difficulty_count'] = min(1.0, word_finding * 10)
+        word_finding = features.get('word_finding_difficulty_count', 0)
+        transcript_length = max(1, features.get('transcript_length', 1))
+        normalized['word_finding_difficulty_count'] = min(1.0, word_finding * 10 / transcript_length)
         
         # Counting sequence normalization (task specific)
-        count_length = features['counting_sequence_length']
+        count_length = features.get('counting_sequence_length', 0)
         if count_length > 25:
             normalized['counting_sequence_length'] = 0.1  # Very good counting
         elif count_length > 15:
@@ -310,11 +377,12 @@ class VoiceAnalyzer:
             normalized['counting_sequence_length'] = 0.8  # Poor counting
         
         # Counting errors normalization
-        error_ratio = features['counting_errors'] / max(1, features['counting_sequence_length'])
-        normalized['counting_errors'] = min(1.0, error_ratio * 3)
+        counting_errors = features.get('counting_errors', 0)
+        count_length = max(1, features.get('counting_sequence_length', 1))
+        normalized['counting_errors'] = min(1.0, counting_errors * 3 / count_length)
         
         # Animal count normalization (task specific - typically >15 in 60s is good)
-        animal_count = features['animal_count']
+        animal_count = features.get('animal_count', 0)
         if animal_count > 15:
             normalized['animal_count'] = 0.1  # Excellent performance
         elif animal_count > 10:
@@ -324,11 +392,25 @@ class VoiceAnalyzer:
         else:
             normalized['animal_count'] = 0.8  # Poor performance
         
+        # Include acoustic features if available
+        for feature in ['acoustic_vocal_stability', 'acoustic_articulation_precision', 
+                       'acoustic_rhythm_regularity', 'acoustic_voice_quality', 'acoustic_energy_variability']:
+            if feature in features:
+                # These are already normalized from the acoustic analyzer
+                normalized[feature] = features[feature]
+        
         # Calculate weighted risk score
         risk_score = 0
+        feature_count = 0
+        
         for feature, weight in weights.items():
             if feature in normalized:
                 risk_score += normalized[feature] * abs(weight) * (1 if weight > 0 else -1)
+                feature_count += 1
+        
+        # Adjust for number of features available
+        if feature_count > 0:
+            risk_score = risk_score * (len(weights) / feature_count)
         
         # Normalize final score between 0 and 1
         risk_score = max(0, min(1, (risk_score + 0.5) / 2))
@@ -350,18 +432,27 @@ class VoiceAnalyzer:
             print("No transcript available for analysis.")
             return
         
-        # Extract features
-        features = self.analyze_features(transcript, audio_duration)
+        # Extract features (now including acoustic analysis)
+        features = self.analyze_features(transcript, audio_duration, audio_path)
         
         # Calculate risk score
         risk_score = self.calculate_cognitive_risk_score(features)
+        features['risk_score'] = risk_score
         
         # Display results
         print("\nSpeech Analysis Results:")
         print("="*50)
+        print("\nLinguistic Features:")
         for feature, value in features.items():
-            print(f"{feature.replace('_', ' ').title()}: {value:.2f}" 
-                  if isinstance(value, float) else f"{feature.replace('_', ' ').title()}: {value}")
+            if not feature.startswith('acoustic_') and feature != 'risk_score':
+                print(f"{feature.replace('_', ' ').title()}: {value:.2f}" 
+                    if isinstance(value, float) else f"{feature.replace('_', ' ').title()}: {value}")
+        
+        if any(k.startswith('acoustic_') for k in features.keys()):
+            print("\nAcoustic Indicators:")
+            for feature, value in features.items():
+                if feature.startswith('acoustic_'):
+                    print(f"{feature.replace('acoustic_', '').replace('_', ' ').title()}: {value:.2f}")
         
         print("\nCognitive Risk Assessment:")
         print("="*50)
@@ -394,7 +485,7 @@ def main():
         print(f"{i+1}. {task}")
     
     try:
-        task_num = int(input("\nSelect a task number (1-5): ")) - 1
+        task_num = int(input("\nSelect a task number (1-6): ")) - 1
         if task_num < 0 or task_num >= len(analyzer.tasks):
             print("Invalid selection. Using task 1.")
             task_num = 0
