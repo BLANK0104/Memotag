@@ -1,0 +1,23 @@
+{
+  "transcript": "that thing thing holiday you know Dallas when hmm we went to the beach house for Christmas. thing that thing presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies er and we watched uh the sunset.",
+  "metadata": {
+    "prompt": "What's your favorite holiday memory from your childhood?",
+    "impairment_level": "moderate",
+    "speech_rate_wpm": 103.07783912860835,
+    "hesitation_count": 3,
+    "pause_positions": [
+      2,
+      4,
+      8,
+      9,
+      19,
+      22,
+      33,
+      37,
+      41,
+      44
+    ],
+    "pause_count": 10,
+    "sample_id": "sample_05"
+  }
+}

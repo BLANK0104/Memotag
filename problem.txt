@@ -1,0 +1,18 @@
+You're working on MemoTag's speech intelligence module. Your task is to process
+5–10 anonymized voice clips (Find simulated/realistic samples) and extract patterns
+that might indicate early cognitive impairment.
+You will:
+1. Preprocess audio and convert to text (if applicable).
+2. Extract relevant features like:
+○ Pauses per sentence
+○ Hesitation markers (uh, um, etc.)
+○ Word recall issues (e.g., word substitution)
+○ Speech rate, pitch variability
+○ Naming & Word-Association Tasks (lost words)
+○ Sentence Completion
+3. Apply a basic unsupervised ML/NLP approach (e.g., clustering, similarity
+scoring, or anomaly detection) to find abnormal samples or patients at risk.
+4. Share a short report explaining:
+○ Which features were most insightful
+○ What ML methods were used and why
+○ Potential next steps to make it clinically robust

@@ -1,0 +1,184 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>MemoTag Cognitive Analysis Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                h1, h2, h3 { color: #2c3e50; }
+                .container { max-width: 1200px; margin: 0 auto; }
+                .summary-box { background-color: #f8f9fa; border-left: 4px solid #4285f4; padding: 15px; margin-bottom: 20px; }
+                .risk-high { color: #e74c3c; }
+                .risk-medium { color: #f39c12; }
+                .risk-low { color: #27ae60; }
+                table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+                th, td { text-align: left; padding: 12px; }
+                th { background-color: #4285f4; color: white; }
+                tr:nth-child(even) { background-color: #f2f2f2; }
+                .viz-section { margin-top: 30px; }
+                .viz-container { text-align: center; margin: 20px 0; }
+                .feature-importance { display: flex; }
+                .feature-bar { height: 20px; margin: 5px 0; background-color: #3498db; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>MemoTag Cognitive Analysis Report</h1>
+                <p>Generated on: 2025-04-15 11:31:07</p>
+                
+                <div class="summary-box">
+                    <h2>Analysis Summary</h2>
+                    <p><strong>Total samples analyzed:</strong> 10</p>
+        
+                    <p><strong>Risk breakdown:</strong></p>
+                    <ul>
+                        <li><span class="risk-high">High risk:</span> 2 samples</li>
+                        <li><span class="risk-medium">Medium risk:</span> 2 samples</li>
+                        <li><span class="risk-low">Low risk:</span> 6 samples</li>
+                    </ul>
+            
+                    <p><strong>Top predictive features:</strong></p>
+                    <ol>
+        
+                        <li>counting_sequence_length (importance: 1.000)</li>
+            
+                        <li>transcript_length (importance: 0.615)</li>
+            
+                        <li>hesitation_ratio (importance: 0.480)</li>
+            
+                        <li>pause_rate (importance: 0.460)</li>
+            
+                        <li>pause_count (importance: 0.453)</li>
+            
+                    </ol>
+                </div>
+        
+                <h2>Detailed Results</h2>
+                <table>
+                    <tr>
+                        <th>Sample ID</th>
+                        <th>Impairment Level</th>
+                        <th>Risk Score</th>
+                        <th>Anomaly Detected</th>
+                        <th>Cluster</th>
+                    </tr>
+        
+                    <tr>
+                        <td>sample_07</td>
+                        <td>moderate</td>
+                        <td class="risk-high">0.915</td>
+                        <td>No</td>
+                        <td>1</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_10</td>
+                        <td>mild</td>
+                        <td class="risk-high">0.850</td>
+                        <td>Yes</td>
+                        <td>2</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_05</td>
+                        <td>moderate</td>
+                        <td class="risk-medium">0.659</td>
+                        <td>No</td>
+                        <td>1</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_01</td>
+                        <td>moderate</td>
+                        <td class="risk-medium">0.570</td>
+                        <td>No</td>
+                        <td>1</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_06</td>
+                        <td>none</td>
+                        <td class="risk-low">0.264</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_02</td>
+                        <td>none</td>
+                        <td class="risk-low">0.214</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_08</td>
+                        <td>none</td>
+                        <td class="risk-low">0.133</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_09</td>
+                        <td>none</td>
+                        <td class="risk-low">0.119</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_03</td>
+                        <td>mild</td>
+                        <td class="risk-low">0.113</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>sample_04</td>
+                        <td>mild</td>
+                        <td class="risk-low">0.050</td>
+                        <td>No</td>
+                        <td>0</td>
+                    </tr>
+            
+                </table>
+        
+                <h2>Visualizations</h2>
+                
+                <div class="viz-section">
+                    <h3>Feature Distributions</h3>
+                    <div class="viz-container">
+                        <img src="feature_distributions.png" alt="Feature Distributions" style="max-width:100%;">
+                    </div>
+                </div>
+                
+                <div class="viz-section">
+                    <h3>Clustering Results</h3>
+                    <div class="viz-container">
+                        <img src="clustering_results.png" alt="Clustering Results" style="max-width:100%;">
+                    </div>
+                </div>
+                
+                <div class="viz-section">
+                    <h3>Risk Scores</h3>
+                    <div class="viz-container">
+                        <img src="risk_scores.png" alt="Risk Scores" style="max-width:100%;">
+                    </div>
+                </div>
+                
+                <div class="viz-section">
+                    <h3>Feature Importance</h3>
+                    <div class="viz-container">
+                        <img src="feature_importance.png" alt="Feature Importance" style="max-width:100%;">
+                    </div>
+                </div>
+                
+                <footer>
+                    <p>MemoTag Speech Intelligence Module - Cognitive Analysis Report</p>
+                </footer>
+            </div>
+        </body>
+        </html>
+        

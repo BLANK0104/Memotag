@@ -1,0 +1,15 @@
+{
+  "transcript": "My favorite holiday memory is when we went to the beach house for Christmas. We opened uh presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies and we watched the sunset.",
+  "metadata": {
+    "prompt": "What's your favorite holiday memory from your childhood?",
+    "impairment_level": "none",
+    "speech_rate_wpm": 151.22451713528287,
+    "hesitation_count": 1,
+    "pause_positions": [
+      12,
+      32
+    ],
+    "pause_count": 2,
+    "sample_id": "sample_08"
+  }
+}

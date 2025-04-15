@@ -1,0 +1,16 @@
+{
+  "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. For lunch I had a sandwich. In the afternoon that thing read a book and uh watched TV. I had dinner with my family and went to bed early.",
+  "metadata": {
+    "prompt": "Please describe what you did yesterday from morning till evening.",
+    "impairment_level": "mild",
+    "speech_rate_wpm": 111.0538684262011,
+    "hesitation_count": 1,
+    "pause_positions": [
+      19,
+      38,
+      40
+    ],
+    "pause_count": 3,
+    "sample_id": "sample_04"
+  }
+}
