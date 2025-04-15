@@ -55,6 +55,28 @@ The module extracts and analyzes the following speech features:
 
 3. View the generated report in the `reports` directory
 
+4. For real-time voice analysis:
+   ```
+   python voice_analyzer.py
+   ```
+
+## Real-Time Voice Analysis
+
+The module now supports real-time voice processing through the `voice_analyzer.py` tool which:
+
+- Records user speech through the microphone
+- Transcribes speech using speech recognition
+- Analyzes cognitive markers in real-time
+- Provides immediate feedback with risk assessment
+- Generates visualizations of speech patterns
+
+Available cognitive tasks include:
+- Counting backwards
+- Animal naming
+- Narrative description
+- Sentence completion
+- Orientation questions
+
 ## Troubleshooting
 
 If you encounter errors during execution:
@@ -75,8 +97,8 @@ The module uses several unsupervised learning techniques:
 
 Future improvements planned:
 
-1. Integration with real audio processing
-2. Expanded feature set with acoustic analysis
-3. Longitudinal tracking capabilities
-4. Personalized baseline development
-5. Clinical validation studies
+1. Expanded feature set with acoustic analysis
+2. Longitudinal tracking capabilities
+3. Personalized baseline development
+4. Clinical validation studies
+~~Real time audio processing~~Real time audio processing
