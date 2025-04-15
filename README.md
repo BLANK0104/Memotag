@@ -40,6 +40,12 @@ The module extracts and analyzes the following speech features:
 - **Word recall issues**: Signs of word-finding difficulties
 - **Speech rate**: Words per minute
 - **Task-specific features**: Performance on specific cognitive tasks (counting, naming)
+- **Acoustic features**: 
+  - Vocal stability and tremor
+  - Pitch variation and control
+  - Articulatory precision
+  - Voice quality measures
+  - Rhythm and prosody
 
 ## Usage
 
@@ -67,8 +73,9 @@ The module now supports real-time voice processing through the `voice_analyzer.p
 - Records user speech through the microphone
 - Transcribes speech using speech recognition
 - Analyzes cognitive markers in real-time
+- Extracts acoustic features using advanced audio processing
 - Provides immediate feedback with risk assessment
-- Generates visualizations of speech patterns
+- Generates visualizations of speech patterns and acoustic properties
 
 Available cognitive tasks include:
 - Counting backwards
@@ -76,6 +83,7 @@ Available cognitive tasks include:
 - Narrative description
 - Sentence completion
 - Orientation questions
+- Emotional expression reading
 
 ## Troubleshooting
 
@@ -93,13 +101,22 @@ The module uses several unsupervised learning techniques:
 - **Anomaly Detection**: Identifies unusual speech patterns that may indicate cognitive issues
 - **Dimensionality Reduction**: Visualizes complex feature relationships
 
-## Next Steps
+## Next Stepsis~~
 
 Future improvements planned:
 
-1. ~~Real time audio processing~~
+1. ✅ Real-time audio processing - **IMPLEMENTED**
 2. Longitudinal tracking capabilities
+   - Tracking speech patterns over multiple sessions
+   - Detecting subtle changes in cognitive markers over time
+   - Establishing personalized baselines for each user
+   - Generating trend reports to visualize cognitive changes
+   - Alert system for significant pattern deviations
 3. Personalized baseline development
 4. Clinical validation studies
-5. Expanded feature set with acoustic analysis
+5. ✅ Expanded feature set with acoustic analysis - **IMPLEMENTED**
+   - Vocal stability and tremor detection
+   - Spectral and prosodic feature analysis
+   - Voice quality assessment
+   - Articulation precision measurement
 
