@@ -97,8 +97,9 @@ The module uses several unsupervised learning techniques:
 
 Future improvements planned:
 
-1. Expanded feature set with acoustic analysis
+1. ~~Real time audio processing~~
 2. Longitudinal tracking capabilities
 3. Personalized baseline development
 4. Clinical validation studies
-~~Real time audio processing~~Real time audio processing
+5. Expanded feature set with acoustic analysis
+
