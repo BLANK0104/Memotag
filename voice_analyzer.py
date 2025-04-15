@@ -25,6 +25,7 @@ from src.data_processing.feature_extractor import FeatureExtractor
 from src.data_processing.acoustic_analyzer import AcousticAnalyzer
 from src.models.unsupervised_analyzer import UnsupervisedAnalyzer
 from src.visualization.visualizer import Visualizer
+from src.tracking.longitudinal_tracker import LongitudinalTracker
 
 class VoiceAnalyzer:
     """Records and analyzes speech in real time for cognitive markers"""
@@ -52,10 +53,15 @@ class VoiceAnalyzer:
         # Initialize analyzers
         self.feature_extractor = FeatureExtractor()
         self.acoustic_analyzer = AcousticAnalyzer()
+        self.tracker = LongitudinalTracker()  # Initialize the longitudinal tracker
         
         # Hesitation markers
         self.hesitation_markers = ['um', 'uh', 'er', 'ah', 'like', 'you know', 'hmm']
         
+        # Current user for longitudinal tracking
+        self.current_user_id = None
+        self.last_audio_path = None
+    
     def record_audio(self, task_index=0, filename=None):
         """Record audio from microphone"""
         if filename is None:
@@ -127,6 +133,9 @@ class VoiceAnalyzer:
         wf.close()
         
         print(f"Audio saved to: {filename}")
+        
+        # Save the last audio path for tracking
+        self.last_audio_path = str(filename)
         return str(filename)
         
     def transcribe_audio(self, audio_path):
@@ -148,6 +157,95 @@ class VoiceAnalyzer:
                 print(f"Could not request results from speech recognition service; {e}")
                 return ""
     
+    # New methods for longitudinal tracking
+    def set_user(self, user_id=None, name=None, age=None, gender=None, notes=None):
+        """Set or create a user for longitudinal tracking"""
+        if not user_id:
+            # Generate a random user ID if none provided
+            user_id = f"user_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        
+        # Register the user in the database
+        self.current_user_id = self.tracker.register_user(
+            user_id=user_id,
+            name=name,
+            age=age,
+            gender=gender,
+            notes=notes
+        )
+        
+        print(f"\nUser set: {user_id}" + (f" ({name})" if name else ""))
+        return self.current_user_id
+    
+    def analyze_with_tracking(self, task_index=0):
+        """Run analysis and store results in the longitudinal tracking system"""
+        if not self.current_user_id:
+            print("\nNo user set. Creating anonymous user for this session.")
+            self.set_user()
+        
+        # Run regular analysis
+        features, risk_score, transcript = self.run_analysis(task_index)
+        
+        if features and risk_score is not None:
+            print("\nStoring assessment in longitudinal tracking system...")
+            
+            # Store the assessment data
+            assessment_id = self.tracker.store_assessment(
+                user_id=self.current_user_id,
+                features=features,
+                risk_score=risk_score,
+                task_type=task_index,
+                audio_path=self.last_audio_path,
+                transcript=transcript
+            )
+            
+            # Check for alerts from this assessment
+            alerts = self.tracker.get_alerts(
+                user_id=self.current_user_id,
+                days=1,
+                unreviewed_only=True
+            )
+            
+            if not alerts.empty:
+                print("\n" + "!"*50)
+                print("ALERT: Significant changes detected from baseline:")
+                print("!"*50)
+                
+                for _, alert in alerts.iterrows():
+                    severity_text = "HIGH" if alert['severity'] == 3 else "MEDIUM" if alert['severity'] == 2 else "LOW"
+                    feature_name = alert['feature_name'].replace('_', ' ').title()
+                    change_direction = "increase" if alert['deviation_value'] > 0 else "decrease"
+                    print(f"- {severity_text} severity: {feature_name} shows {abs(alert['deviation_value']):.2f} {change_direction} from baseline")
+                
+                print("\nThese changes may indicate cognitive function changes.")
+                print("!"*50)
+                
+                # Mark alerts as reviewed
+                for alert_id in alerts['alert_id']:
+                    self.tracker.mark_alert_reviewed(alert_id)
+            
+            # Generate trend report if we have enough data
+            history = self.tracker.get_user_history(self.current_user_id)
+            assessments_count = len(history['timestamp'].unique())
+            
+            if assessments_count > 1:
+                print(f"\nGenerating trend report (based on {assessments_count} assessments)...")
+                report_path = self.tracker.generate_trend_report(self.current_user_id)
+                if report_path:
+                    print(f"Trend report saved to: {report_path}")
+                    
+                    # Show trend visualization
+                    try:
+                        img = plt.imread(report_path)
+                        plt.figure(figsize=(12, 15))
+                        plt.imshow(img)
+                        plt.axis('off')
+                        plt.title("Cognitive Function Trends Over Time")
+                        plt.show()
+                    except Exception as e:
+                        print(f"Could not display trend report: {e}")
+            
+        return features, risk_score, transcript
+
     def analyze_features(self, transcript, audio_duration, audio_path=None):
         """Extract cognitive features from transcript and audio"""
         print("\nAnalyzing speech features...")
@@ -476,8 +574,29 @@ def main():
     print("="*50)
     print("This tool will record your voice and analyze speech patterns")
     print("that might indicate cognitive function.")
+    print("\nLongitudinal tracking is available to monitor changes over time.")
     
     analyzer = VoiceAnalyzer()
+    
+    # Ask about longitudinal tracking
+    track_response = input("\nWould you like to enable longitudinal tracking? (y/n): ").strip().lower()
+    use_tracking = track_response.startswith('y')
+    
+    if use_tracking:
+        print("\nPlease provide user information for tracking:")
+        user_id = input("User ID (or press Enter for auto-generated ID): ").strip()
+        name = input("Name (optional): ").strip()
+        age_input = input("Age (optional): ").strip()
+        gender = input("Gender (optional): ").strip()
+        notes = input("Notes (optional): ").strip()
+        
+        try:
+            age = int(age_input) if age_input else None
+        except ValueError:
+            age = None
+            print("Invalid age format. Age will be left blank.")
+        
+        analyzer.set_user(user_id, name, age, gender, notes)
     
     # Show available tasks
     print("\nAvailable Tasks:")
@@ -499,8 +618,30 @@ def main():
     except ValueError:
         print("Using default recording time of 60 seconds.")
     
-    # Run the analysis
-    analyzer.run_analysis(task_num)
+    # Run the analysis with tracking if enabled
+    if use_tracking:
+        analyzer.analyze_with_tracking(task_num)
+    else:
+        analyzer.run_analysis(task_num)
+    
+    # If tracking was used, provide option to view historical data
+    if use_tracking and analyzer.current_user_id:
+        view_history = input("\nWould you like to view historical trends? (y/n): ").strip().lower()
+        if view_history.startswith('y'):
+            report_path = analyzer.tracker.generate_trend_report(analyzer.current_user_id)
+            if report_path:
+                print(f"Trend report generated at: {report_path}")
+                try:
+                    img = plt.imread(report_path)
+                    plt.figure(figsize=(12, 15))
+                    plt.imshow(img)
+                    plt.axis('off')
+                    plt.title("Cognitive Function Trends Over Time")
+                    plt.show()
+                except Exception as e:
+                    print(f"Could not display trend report: {e}")
+            else:
+                print("Not enough historical data available for trend analysis.")
 
 if __name__ == "__main__":
     main()

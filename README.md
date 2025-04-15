@@ -66,6 +66,32 @@ The module extracts and analyzes the following speech features:
    python voice_analyzer.py
    ```
 
+## Longitudinal Tracking
+
+The system now includes comprehensive longitudinal tracking capabilities:
+
+- **User Profiles**: Create and maintain profiles for each user
+- **Session History**: Store and access historical assessment data
+- **Personalized Baselines**: Automatically calculate baseline values for each speech feature
+- **Change Detection**: Identify significant deviations from user's established baseline
+- **Trend Visualization**: Generate visual reports showing changes in speech patterns over time
+- **Alert System**: Receive alerts when speech markers show concerning changes
+
+To use longitudinal tracking:
+
+1. Enable tracking when prompted in the voice analyzer:
+   ```
+   python voice_analyzer.py
+   ```
+   
+2. Perform multiple assessments over time for the same user to build a baseline
+
+3. View trend reports and alerts for users:
+   ```
+   python src/reports/trend_viewer.py list     # List all users
+   python src/reports/trend_viewer.py view <user_id>  # View trends for a specific user
+   ```
+
 ## Real-Time Voice Analysis
 
 The module now supports real-time voice processing through the `voice_analyzer.py` tool which:
@@ -101,22 +127,18 @@ The module uses several unsupervised learning techniques:
 - **Anomaly Detection**: Identifies unusual speech patterns that may indicate cognitive issues
 - **Dimensionality Reduction**: Visualizes complex feature relationships
 
-## Next Stepsis~~
+## Next Steps
 
 Future improvements planned:
 
 1. ✅ Real-time audio processing - **IMPLEMENTED**
-2. Longitudinal tracking capabilities
+2. ✅ Expanded feature set with acoustic analysis - **IMPLEMENTED**
+3. ✅ Longitudinal tracking capabilities - **IMPLEMENTED**
    - Tracking speech patterns over multiple sessions
    - Detecting subtle changes in cognitive markers over time
    - Establishing personalized baselines for each user
    - Generating trend reports to visualize cognitive changes
    - Alert system for significant pattern deviations
-3. Personalized baseline development
-4. Clinical validation studies
-5. ✅ Expanded feature set with acoustic analysis - **IMPLEMENTED**
-   - Vocal stability and tremor detection
-   - Spectral and prosodic feature analysis
-   - Voice quality assessment
-   - Articulation precision measurement
+4. Personalized baseline development
+5. Clinical validation studies
 
