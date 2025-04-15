@@ -61,7 +61,20 @@ The module extracts and analyzes the following speech features:
 
 3. View the generated report in the `reports` directory
 
-4. For real-time voice analysis:
+4. For real-time voice analysis, use one of these methods:
+   
+   • Windows:
+   ```
+   run_voice_analyzer.bat
+   ```
+   
+   • Linux/macOS:
+   ```
+   chmod +x run_voice_analyzer.sh
+   ./run_voice_analyzer.sh
+   ```
+   
+   • Direct Python execution:
    ```
    python voice_analyzer.py
    ```
