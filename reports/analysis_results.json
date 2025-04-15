@@ -1,39 +1,39 @@
 {
-  "timestamp": "2025-04-15 11:31:07",
+  "timestamp": "2025-04-15 15:24:10",
   "sample_count": 10,
   "summary_statistics": {
     "top_correlations": {},
-    "moderate_stats": {
-      "count": 3,
-      "avg_anomaly_score": 0.05178413325155954,
+    "severe_stats": {
+      "count": 1,
+      "avg_anomaly_score": -0.11143028545389455,
       "features": {
         "speech_rate_wpm": {
-          "mean": 104.12150986235183,
-          "std": 7.938783010663385
+          "mean": 77.59050266578349,
+          "std": NaN
         },
         "hesitation_count": {
-          "mean": 4.333333333333333,
-          "std": 2.309401076758503
+          "mean": 11.0,
+          "std": NaN
         },
         "hesitation_ratio": {
-          "mean": 0.09207161125319692,
-          "std": 0.0521482058928483
+          "mean": 0.1774193548387097,
+          "std": NaN
         },
         "pause_count": {
-          "mean": 9.666666666666666,
-          "std": 0.5773502691896257
+          "mean": 10.0,
+          "std": NaN
         },
         "pause_rate": {
-          "mean": 20.304063654447287,
-          "std": 1.242987021883556
+          "mean": 16.129032258064516,
+          "std": NaN
         },
         "transcript_length": {
-          "mean": 47.666666666666664,
-          "std": 2.8867513459481287
+          "mean": 62.0,
+          "std": NaN
         },
         "word_finding_difficulty_count": {
-          "mean": 4.0,
-          "std": 1.7320508075688772
+          "mean": 8.0,
+          "std": NaN
         },
         "animal_count": {
           "mean": NaN,
@@ -48,58 +48,120 @@
           "std": NaN
         },
         "anomaly": {
+          "mean": 1.0,
+          "std": NaN
+        },
+        "pca1": {
+          "mean": 5.307593312965382,
+          "std": NaN
+        },
+        "pca2": {
+          "mean": -2.5818577911160636,
+          "std": NaN
+        },
+        "risk_score": {
+          "mean": 1.0,
+          "std": NaN
+        }
+      }
+    },
+    "mild_stats": {
+      "count": 4,
+      "avg_anomaly_score": 0.07548654753198573,
+      "features": {
+        "speech_rate_wpm": {
+          "mean": 118.3276023388594,
+          "std": 6.673029175669633
+        },
+        "hesitation_count": {
+          "mean": 1.5,
+          "std": 0.5773502691896257
+        },
+        "hesitation_ratio": {
+          "mean": 0.05381944444444444,
+          "std": 0.017463688731105362
+        },
+        "pause_count": {
+          "mean": 5.25,
+          "std": 0.5
+        },
+        "pause_rate": {
+          "mean": 20.19675925925926,
+          "std": 7.896142896704443
+        },
+        "transcript_length": {
+          "mean": 29.5,
+          "std": 13.379088160259652
+        },
+        "word_finding_difficulty_count": {
+          "mean": 0.5,
+          "std": 0.5773502691896257
+        },
+        "animal_count": {
+          "mean": 27.0,
+          "std": 0.0
+        },
+        "counting_errors": {
+          "mean": 0.0,
+          "std": NaN
+        },
+        "counting_sequence_length": {
+          "mean": 15.0,
+          "std": NaN
+        },
+        "anomaly": {
           "mean": 0.0,
           "std": 0.0
         },
         "pca1": {
-          "mean": 3.2043885214238803,
-          "std": 1.105933681382844
+          "mean": 0.133908556697813,
+          "std": 0.3416000078832955
         },
         "pca2": {
-          "mean": -0.17293366252769007,
-          "std": 0.4860037336395576
+          "mean": 0.8717638737728203,
+          "std": 1.5943101468712744
         },
         "risk_score": {
-          "mean": 0.7145047106132346,
-          "std": 0.1790296122970763
+          "mean": 0.3042127862662107,
+          "std": 0.1091094165274759
         }
       }
     },
     "none_stats": {
       "count": 4,
-      "avg_anomaly_score": 0.12176223622373415,
+      "avg_anomaly_score": 0.12097785687420803,
       "features": {
         "speech_rate_wpm": {
-          "mean": 141.17095605394647,
-          "std": 8.148601208025351
+          "mean": 145.17219445454958,
+          "std": 9.100793170449474
         },
         "hesitation_count": {
-          "mean": 0.25,
-          "std": 0.5
+          "mean": 0.5,
+          "std": 0.5773502691896257
         },
         "hesitation_ratio": {
-          "mean": 0.006097560975609756,
-          "std": 0.012195121951219514
+          "mean": 0.012134502923976609,
+          "std": 0.014111027499431173
         },
         "pause_count": {
-          "mean": 2.0,
-          "std": 0.0
+          "mean": 2.25,
+          "std": 0.9574271077563381
         },
         "pause_rate": {
-          "mean": 6.522542498152254,
-          "std": 2.0953252140333594
+          "mean": 5.458532695374801,
+          "std": 2.4327136261682636
         },
         "transcript_length": {
-          "mean": 33.25,
-          "std": 10.750968948580091
+          "mean": 41.75,
+          "std": 3.304037933599835
         },
         "word_finding_difficulty_count": {
           "mean": 0.0,
           "std": 0.0
         },
         "animal_count": {
-          "mean": 24.0,
-          "std": 0.0
+          "mean": NaN,
+          "std": NaN
         },
         "counting_errors": {
           "mean": NaN,
@@ -114,50 +176,50 @@
           "std": 0.0
         },
         "pca1": {
-          "mean": -2.1592944006557735,
-          "std": 0.5472273747797272
+          "mean": -1.912280168052617,
+          "std": 0.47614006358405186
         },
         "pca2": {
-          "mean": -0.24017489926919636,
-          "std": 0.6616982432726858
+          "mean": -0.8996173539153194,
+          "std": 0.21425512525607723
         },
         "risk_score": {
-          "mean": 0.18234248458179525,
-          "std": 0.0689234161471941
+          "mean": 0.10510366712307843,
+          "std": 0.08607121885215868
         }
       }
     },
-    "mild_stats": {
-      "count": 3,
-      "avg_anomaly_score": 0.09153624327450882,
+    "moderate_stats": {
+      "count": 1,
+      "avg_anomaly_score": 0.012381142828210456,
       "features": {
         "speech_rate_wpm": {
-          "mean": 122.81576922439349,
-          "std": 11.567293753319602
+          "mean": 107.728185371644,
+          "std": NaN
         },
         "hesitation_count": {
-          "mean": 1.3333333333333333,
-          "std": 0.5773502691896257
+          "mean": 3.0,
+          "std": NaN
         },
         "hesitation_ratio": {
-          "mean": 0.0509500805152979,
-          "std": 0.05210823682902806
+          "mean": 0.15,
+          "std": NaN
         },
         "pause_count": {
-          "mean": 3.0,
-          "std": 0.0
+          "mean": 6.0,
+          "std": NaN
         },
         "pause_rate": {
-          "mean": 9.729468599033815,
-          "std": 6.013450814817846
+          "mean": 30.0,
+          "std": NaN
         },
         "transcript_length": {
-          "mean": 38.0,
-          "std": 17.435595774162696
+          "mean": 20.0,
+          "std": NaN
         },
         "word_finding_difficulty_count": {
-          "mean": 1.0,
-          "std": 1.0
+          "mean": 0.0,
+          "std": NaN
         },
         "animal_count": {
           "mean": NaN,
@@ -172,34 +234,34 @@
           "std": NaN
         },
         "anomaly": {
-          "mean": 0.3333333333333333,
-          "std": 0.5773502691896258
+          "mean": 0.0,
+          "std": NaN
         },
         "pca1": {
-          "mean": -0.32532932054951486,
-          "std": 0.018645076753381506
+          "mean": 1.8058931324538339,
+          "std": NaN
         },
         "pca2": {
-          "mean": 0.4931668615532849,
-          "std": 2.899444751270347
+          "mean": 2.6932717116860614,
+          "std": NaN
         },
         "risk_score": {
-          "mean": 0.33755156321727336,
-          "std": 0.4448976880189834
+          "mean": 0.49742458695168257,
+          "std": NaN
         }
       }
     }
   },
   "feature_importance": {
-    "counting_sequence_length": 1.0,
-    "transcript_length": 0.6152420451058835,
-    "hesitation_ratio": 0.48029206349626014,
-    "pause_rate": 0.45966945501367595,
-    "pause_count": 0.4533944889144163,
-    "word_finding_difficulty_count": 0.44355793606359684,
-    "speech_rate_wpm": 0.37427252741973965,
-    "hesitation_count": 0.3558474771252594,
-    "animal_count": 0.15221616644829541,
+    "word_finding_difficulty_count": 1.0,
+    "hesitation_count": 0.9386848626905482,
+    "transcript_length": 0.6813326385285972,
+    "speech_rate_wpm": 0.6390113897479014,
+    "pause_count": 0.6189955442618058,
+    "hesitation_ratio": 0.593211427951352,
+    "pause_rate": 0.42916125077903944,
+    "counting_sequence_length": 0.316121264728373,
+    "animal_count": 0.15668795492509036,
     "counting_errors": 0.0
   }
 }

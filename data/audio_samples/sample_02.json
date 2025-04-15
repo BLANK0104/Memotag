@@ -1,15 +1,18 @@
 {
-  "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer rabbit squirrel mouse rat zebra giraffe monkey gorilla",
+  "transcript": "Dog cat horse cow sheep hmm pig chicken duck goose elephant for tiger bear wolf fox deer that thing squirrel mouse rat zebra be er monkey gorilla",
   "metadata": {
     "prompt": "Can you name as many animals as you can in 30 seconds?",
-    "impairment_level": "none",
-    "speech_rate_wpm": 136.14626475742716,
-    "hesitation_count": 0,
+    "impairment_level": "mild",
+    "speech_rate_wpm": 118.63939418458985,
+    "hesitation_count": 2,
     "pause_positions": [
-      18,
-      19
+      4,
+      6,
+      13,
+      20,
+      21
     ],
-    "pause_count": 2,
+    "pause_count": 5,
     "sample_id": "sample_02"
   }
 }

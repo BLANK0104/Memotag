@@ -1,14 +1,14 @@
 {
-  "transcript": "I woke up around hmm seven and had breakfast. Then I went for a walk in er the park. For lunch that thing had a sandwich. In the what's it called I read a book and watched TV. I had hmm dinner with my family and went to bed early.",
+  "transcript": "First you take two slices of bread. Then you spread butter or mayonnaise. Add some cheese and ham or hmm whatever filling you like. You can add lettuce and tomatoes too. Then put the second slice on top.",
   "metadata": {
-    "prompt": "Please describe what you did yesterday from morning till evening.",
-    "impairment_level": "mild",
-    "speech_rate_wpm": 123.21533731738316,
-    "hesitation_count": 3,
+    "prompt": "Can you explain how to make a sandwich?",
+    "impairment_level": "none",
+    "speech_rate_wpm": 153.80948769902062,
+    "hesitation_count": 1,
     "pause_positions": [
-      14,
+      11,
       29,
-      38
+      33
     ],
     "pause_count": 3,
     "sample_id": "sample_03"

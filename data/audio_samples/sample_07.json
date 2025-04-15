@@ -1,22 +1,19 @@
 {
-  "transcript": "First uh you that er thing two slices of bread. thing that thing um er party butter or mayonnaise. Add some cheese that thing thing or whatever filling you like. You can add lettuce Georgia's uh tomatoes too. Then Commissioner's the second slice on uh top.",
+  "transcript": "100, hmm um 93, 86, 79, 72, 65, 58, uh 51, hmm er 44, 37, 30, 23, 16, 9, 2",
   "metadata": {
-    "prompt": "Can you explain how to make a sandwich?",
+    "prompt": "Please count backward from 100 by 7.",
     "impairment_level": "moderate",
-    "speech_rate_wpm": 96.75618228935454,
-    "hesitation_count": 6,
+    "speech_rate_wpm": 107.728185371644,
+    "hesitation_count": 5,
     "pause_positions": [
       2,
-      5,
-      11,
+      10,
       12,
-      21,
-      24,
-      25,
-      28,
-      38
+      13,
+      15,
+      18
     ],
-    "pause_count": 9,
+    "pause_count": 6,
     "sample_id": "sample_07"
   }
 }

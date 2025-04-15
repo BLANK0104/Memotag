@@ -1,21 +1,21 @@
 {
-  "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. For lunch I had thing sandwich. In the afternoon I read a book and watched TV. I what's it er called dinner Sept. ah my family ah and what's it called to bed early.",
+  "transcript": "ah I uh woke up around seven . had breakfast. the uh I that thing for a walk er in the uh park. For you know uh uh that thing had a thing what's it called the afternoon I read a that thing and er watched TV. I `` dinner ah with thing what's it called and cities to ah bed early.",
   "metadata": {
     "prompt": "Please describe what you did yesterday from morning till evening.",
-    "impairment_level": "moderate",
-    "speech_rate_wpm": 112.53050816909256,
-    "hesitation_count": 3,
+    "impairment_level": "severe",
+    "speech_rate_wpm": 77.59050266578349,
+    "hesitation_count": 10,
     "pause_positions": [
-      4,
-      8,
-      9,
+      15,
       16,
-      21,
-      22,
-      23,
-      32,
-      44,
-      48
+      26,
+      30,
+      33,
+      35,
+      39,
+      43,
+      47,
+      60
     ],
     "pause_count": 10,
     "sample_id": "sample_01"

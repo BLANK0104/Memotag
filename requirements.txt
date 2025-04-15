@@ -11,9 +11,11 @@ pyaudio>=0.2.11
 SpeechRecognition>=3.8.1
 librosa>=0.8.1
 soundfile>=0.10.3
+jaraco.text>=3.7.0  # Required by librosa/soundfile on some systems
 
 # Visualization
 seaborn>=0.11.0
 
 # Report generation
 jinja2>=3.0.0
+# Add any other dependencies needed

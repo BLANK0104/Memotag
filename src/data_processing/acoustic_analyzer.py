@@ -1,14 +1,18 @@
 import os
 import numpy as np
-import librosa
-import librosa.display
 import matplotlib.pyplot as plt
 from pathlib import Path
 import pandas as pd
 import warnings
 
-# Suppress warnings from librosa
-warnings.filterwarnings('ignore')
+# Try importing librosa and its dependencies
+try:
+    import librosa
+    import librosa.display
+    LIBROSA_AVAILABLE = True
+except ImportError as e:
+    LIBROSA_AVAILABLE = False
+    IMPORT_ERROR = str(e)
 
 class AcousticAnalyzer:
     """Extracts acoustic features from voice recordings"""
@@ -16,9 +20,28 @@ class AcousticAnalyzer:
     def __init__(self):
         """Initialize the acoustic analyzer"""
         self.features = {}
+        self.dependency_check_performed = False
+        
+    def _check_dependencies(self):
+        """Check if all required dependencies are available"""
+        if not self.dependency_check_performed:
+            if not LIBROSA_AVAILABLE:
+                print("\nWARNING: Acoustic analysis disabled - missing dependencies.")
+                print(f"Error: {IMPORT_ERROR}")
+                print("\nTo enable acoustic analysis, install required packages:")
+                print("pip install librosa soundfile jaraco.text")
+                print("For Windows users, you may need to install additional dependencies:")
+                print("pip install PyAudio==0.2.11")
+            
+            self.dependency_check_performed = True
+        
+        return LIBROSA_AVAILABLE
         
     def load_audio(self, audio_path):
         """Load audio file and convert to mono"""
+        if not self._check_dependencies():
+            return None, None
+            
         try:
             # Load audio file with librosa (automatically resamples)
             y, sr = librosa.load(audio_path, sr=None, mono=True)
@@ -29,6 +52,10 @@ class AcousticAnalyzer:
     
     def extract_features(self, audio_path):
         """Extract comprehensive acoustic features from audio file"""
+        if not self._check_dependencies():
+            print("Skipping acoustic feature extraction due to missing dependencies.")
+            return {}
+            
         print("Extracting acoustic features...")
         
         # Load audio
@@ -181,9 +208,12 @@ class AcousticAnalyzer:
     
     def generate_visualizations(self, audio_path, output_dir=None):
         """Generate visualizations of acoustic features"""
+        if not self._check_dependencies():
+            return None
+            
         y, sr = self.load_audio(audio_path)
         if y is None:
-            return
+            return None
             
         if output_dir is None:
             output_dir = Path("reports/acoustic_analysis")

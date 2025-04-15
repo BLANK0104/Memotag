@@ -1,16 +1,18 @@
 {
-  "transcript": "100, uh 93, 86, 79, 72, er 65, 58, 51, 44, 37, 30, 23, hmm 16, 9, 2",
+  "transcript": "100, 93, 86, 79, 72, 65, 58, 51, 44, er 37, 30, 23, 16, 9, 2",
   "metadata": {
     "prompt": "Please count backward from 100 by 7.",
     "impairment_level": "mild",
-    "speech_rate_wpm": 134.1781019295962,
-    "hesitation_count": 3,
+    "speech_rate_wpm": 111.68728764538824,
+    "hesitation_count": 1,
     "pause_positions": [
-      5,
-      6,
-      12
+      3,
+      7,
+      8,
+      9,
+      13
     ],
-    "pause_count": 3,
+    "pause_count": 5,
     "sample_id": "sample_10"
   }
 }

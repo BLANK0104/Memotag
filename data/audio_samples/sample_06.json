@@ -1,13 +1,13 @@
 {
-  "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer rabbit squirrel mouse rat zebra giraffe monkey gorilla",
+  "transcript": "My favorite holiday memory is when we went to the beach house for Christmas. We opened presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies and we watched the sunset.",
   "metadata": {
-    "prompt": "Can you name as many animals as you can in 30 seconds?",
+    "prompt": "What's your favorite holiday memory from your childhood?",
     "impairment_level": "none",
-    "speech_rate_wpm": 144.14435890715754,
+    "speech_rate_wpm": 138.24676577475952,
     "hesitation_count": 0,
     "pause_positions": [
-      5,
-      13
+      12,
+      26
     ],
     "pause_count": 2,
     "sample_id": "sample_06"

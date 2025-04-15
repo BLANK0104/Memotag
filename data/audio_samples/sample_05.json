@@ -1,23 +1,19 @@
 {
-  "transcript": "that thing thing holiday you know Dallas when hmm we went to the beach house for Christmas. thing that thing presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies er and we watched uh the sunset.",
+  "transcript": "I woke up around seven and had breakfast. Then I went for uh a walk in the park. For lunch what's it called had a sandwich. In the afternoon I read threats book toward watched TV. I had dinner with uh my family and went to bed early.",
   "metadata": {
-    "prompt": "What's your favorite holiday memory from your childhood?",
-    "impairment_level": "moderate",
-    "speech_rate_wpm": 103.07783912860835,
-    "hesitation_count": 3,
+    "prompt": "Please describe what you did yesterday from morning till evening.",
+    "impairment_level": "mild",
+    "speech_rate_wpm": 127.381340014377,
+    "hesitation_count": 2,
     "pause_positions": [
-      2,
-      4,
+      7,
       8,
-      9,
       19,
-      22,
-      33,
-      37,
-      41,
-      44
+      20,
+      27,
+      47
     ],
-    "pause_count": 10,
+    "pause_count": 6,
     "sample_id": "sample_05"
   }
 }

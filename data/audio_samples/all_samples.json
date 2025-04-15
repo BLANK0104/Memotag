@@ -1,146 +1,145 @@
 [
   {
-    "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. For lunch I had thing sandwich. In the afternoon I read a book and watched TV. I what's it er called dinner Sept. ah my family ah and what's it called to bed early.",
+    "transcript": "ah I uh woke up around seven . had breakfast. the uh I that thing for a walk er in the uh park. For you know uh uh that thing had a thing what's it called the afternoon I read a that thing and er watched TV. I `` dinner ah with thing what's it called and cities to ah bed early.",
     "metadata": {
       "prompt": "Please describe what you did yesterday from morning till evening.",
-      "impairment_level": "moderate",
-      "speech_rate_wpm": 112.53050816909256,
-      "hesitation_count": 3,
+      "impairment_level": "severe",
+      "speech_rate_wpm": 77.59050266578349,
+      "hesitation_count": 10,
       "pause_positions": [
-        4,
-        8,
-        9,
+        15,
         16,
-        21,
-        22,
-        23,
-        32,
-        44,
-        48
+        26,
+        30,
+        33,
+        35,
+        39,
+        43,
+        47,
+        60
       ],
       "pause_count": 10,
       "sample_id": "sample_01"
     }
   },
   {
-    "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer rabbit squirrel mouse rat zebra giraffe monkey gorilla",
+    "transcript": "Dog cat horse cow sheep hmm pig chicken duck goose elephant for tiger bear wolf fox deer that thing squirrel mouse rat zebra be er monkey gorilla",
     "metadata": {
       "prompt": "Can you name as many animals as you can in 30 seconds?",
-      "impairment_level": "none",
-      "speech_rate_wpm": 136.14626475742716,
-      "hesitation_count": 0,
+      "impairment_level": "mild",
+      "speech_rate_wpm": 118.63939418458985,
+      "hesitation_count": 2,
       "pause_positions": [
-        18,
-        19
+        4,
+        6,
+        13,
+        20,
+        21
       ],
-      "pause_count": 2,
+      "pause_count": 5,
       "sample_id": "sample_02"
     }
   },
   {
-    "transcript": "I woke up around hmm seven and had breakfast. Then I went for a walk in er the park. For lunch that thing had a sandwich. In the what's it called I read a book and watched TV. I had hmm dinner with my family and went to bed early.",
+    "transcript": "First you take two slices of bread. Then you spread butter or mayonnaise. Add some cheese and ham or hmm whatever filling you like. You can add lettuce and tomatoes too. Then put the second slice on top.",
     "metadata": {
-      "prompt": "Please describe what you did yesterday from morning till evening.",
-      "impairment_level": "mild",
-      "speech_rate_wpm": 123.21533731738316,
-      "hesitation_count": 3,
+      "prompt": "Can you explain how to make a sandwich?",
+      "impairment_level": "none",
+      "speech_rate_wpm": 153.80948769902062,
+      "hesitation_count": 1,
       "pause_positions": [
-        14,
+        11,
         29,
-        38
+        33
       ],
       "pause_count": 3,
       "sample_id": "sample_03"
     }
   },
   {
-    "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. For lunch I had a sandwich. In the afternoon that thing read a book and uh watched TV. I had dinner with my family and went to bed early.",
+    "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer ah rabbit squirrel mouse hmm rat zebra giraffe monkey er gorilla",
     "metadata": {
-      "prompt": "Please describe what you did yesterday from morning till evening.",
+      "prompt": "Can you name as many animals as you can in 30 seconds?",
       "impairment_level": "mild",
-      "speech_rate_wpm": 111.0538684262011,
-      "hesitation_count": 1,
+      "speech_rate_wpm": 115.6023875110826,
+      "hesitation_count": 3,
       "pause_positions": [
-        19,
-        38,
-        40
+        1,
+        2,
+        3,
+        14,
+        17
       ],
-      "pause_count": 3,
+      "pause_count": 5,
       "sample_id": "sample_04"
     }
   },
   {
-    "transcript": "that thing thing holiday you know Dallas when hmm we went to the beach house for Christmas. thing that thing presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies er and we watched uh the sunset.",
+    "transcript": "I woke up around seven and had breakfast. Then I went for uh a walk in the park. For lunch what's it called had a sandwich. In the afternoon I read threats book toward watched TV. I had dinner with uh my family and went to bed early.",
     "metadata": {
-      "prompt": "What's your favorite holiday memory from your childhood?",
-      "impairment_level": "moderate",
-      "speech_rate_wpm": 103.07783912860835,
-      "hesitation_count": 3,
+      "prompt": "Please describe what you did yesterday from morning till evening.",
+      "impairment_level": "mild",
+      "speech_rate_wpm": 127.381340014377,
+      "hesitation_count": 2,
       "pause_positions": [
-        2,
-        4,
+        7,
         8,
-        9,
         19,
-        22,
-        33,
-        37,
-        41,
-        44
+        20,
+        27,
+        47
       ],
-      "pause_count": 10,
+      "pause_count": 6,
       "sample_id": "sample_05"
     }
   },
   {
-    "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer rabbit squirrel mouse rat zebra giraffe monkey gorilla",
+    "transcript": "My favorite holiday memory is when we went to the beach house for Christmas. We opened presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies and we watched the sunset.",
     "metadata": {
-      "prompt": "Can you name as many animals as you can in 30 seconds?",
+      "prompt": "What's your favorite holiday memory from your childhood?",
       "impairment_level": "none",
-      "speech_rate_wpm": 144.14435890715754,
+      "speech_rate_wpm": 138.24676577475952,
       "hesitation_count": 0,
       "pause_positions": [
-        5,
-        13
+        12,
+        26
       ],
       "pause_count": 2,
       "sample_id": "sample_06"
     }
   },
   {
-    "transcript": "First uh you that er thing two slices of bread. thing that thing um er party butter or mayonnaise. Add some cheese that thing thing or whatever filling you like. You can add lettuce Georgia's uh tomatoes too. Then Commissioner's the second slice on uh top.",
+    "transcript": "100, hmm um 93, 86, 79, 72, 65, 58, uh 51, hmm er 44, 37, 30, 23, 16, 9, 2",
     "metadata": {
-      "prompt": "Can you explain how to make a sandwich?",
+      "prompt": "Please count backward from 100 by 7.",
       "impairment_level": "moderate",
-      "speech_rate_wpm": 96.75618228935454,
-      "hesitation_count": 6,
+      "speech_rate_wpm": 107.728185371644,
+      "hesitation_count": 5,
       "pause_positions": [
         2,
-        5,
-        11,
+        10,
         12,
-        21,
-        24,
-        25,
-        28,
-        38
+        13,
+        15,
+        18
       ],
-      "pause_count": 9,
+      "pause_count": 6,
       "sample_id": "sample_07"
     }
   },
   {
-    "transcript": "My favorite holiday memory is when we went to the beach house for Christmas. We opened uh presents in the morning and then spent the day swimming and building sandcastles. My grandmother made her special cookies and we watched the sunset.",
+    "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. er For lunch I had a sandwich. In the afternoon I read a book and watched TV. I had dinner with my family and went to bed early.",
     "metadata": {
-      "prompt": "What's your favorite holiday memory from your childhood?",
+      "prompt": "Please describe what you did yesterday from morning till evening.",
       "impairment_level": "none",
-      "speech_rate_wpm": 151.22451713528287,
+      "speech_rate_wpm": 136.42818028051482,
       "hesitation_count": 1,
       "pause_positions": [
-        12,
-        32
+        28,
+        39,
+        40
       ],
-      "pause_count": 2,
+      "pause_count": 3,
       "sample_id": "sample_08"
     }
   },
@@ -149,29 +148,30 @@
     "metadata": {
       "prompt": "Please describe what you did yesterday from morning till evening.",
       "impairment_level": "none",
-      "speech_rate_wpm": 133.1686834159183,
+      "speech_rate_wpm": 152.2043440639034,
       "hesitation_count": 0,
       "pause_positions": [
-        19,
-        23
+        42
       ],
-      "pause_count": 2,
+      "pause_count": 1,
       "sample_id": "sample_09"
     }
   },
   {
-    "transcript": "100, uh 93, 86, 79, 72, er 65, 58, 51, 44, 37, 30, 23, hmm 16, 9, 2",
+    "transcript": "100, 93, 86, 79, 72, 65, 58, 51, 44, er 37, 30, 23, 16, 9, 2",
     "metadata": {
       "prompt": "Please count backward from 100 by 7.",
       "impairment_level": "mild",
-      "speech_rate_wpm": 134.1781019295962,
-      "hesitation_count": 3,
+      "speech_rate_wpm": 111.68728764538824,
+      "hesitation_count": 1,
       "pause_positions": [
-        5,
-        6,
-        12
+        3,
+        7,
+        8,
+        9,
+        13
       ],
-      "pause_count": 3,
+      "pause_count": 5,
       "sample_id": "sample_10"
     }
   }

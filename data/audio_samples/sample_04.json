@@ -1,16 +1,18 @@
 {
-  "transcript": "I woke up around seven and had breakfast. Then I went for a walk in the park. For lunch I had a sandwich. In the afternoon that thing read a book and uh watched TV. I had dinner with my family and went to bed early.",
+  "transcript": "Dog cat horse cow sheep pig chicken duck goose elephant lion tiger bear wolf fox deer ah rabbit squirrel mouse hmm rat zebra giraffe monkey er gorilla",
   "metadata": {
-    "prompt": "Please describe what you did yesterday from morning till evening.",
+    "prompt": "Can you name as many animals as you can in 30 seconds?",
     "impairment_level": "mild",
-    "speech_rate_wpm": 111.0538684262011,
-    "hesitation_count": 1,
+    "speech_rate_wpm": 115.6023875110826,
+    "hesitation_count": 3,
     "pause_positions": [
-      19,
-      38,
-      40
+      1,
+      2,
+      3,
+      14,
+      17
     ],
-    "pause_count": 3,
+    "pause_count": 5,
     "sample_id": "sample_04"
   }
 }
