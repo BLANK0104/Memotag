@@ -47,6 +47,20 @@ The module extracts and analyzes the following speech features:
   - Voice quality measures
   - Rhythm and prosody
 
+## Cognitive Risk Score
+
+The system calculates a comprehensive **Risk Score** (0.0-1.0) that quantifies potential cognitive concerns:
+
+- **Calculation method**: Weighted analysis of linguistic and acoustic features
+- **Key indicators**: Hesitations, pauses, speech rate, word recall, task performance, and acoustic qualities
+- **Interpretation**:
+  - **Low Risk** (0.0-0.3): No significant cognitive concerns detected
+  - **Moderate Risk** (0.3-0.6): Some speech patterns may warrant further assessment
+  - **High Risk** (0.6-1.0): Consider professional cognitive assessment
+- **Visualization**: Risk scores are visually represented in analysis reports
+- **Tracking**: Longitudinal monitoring tracks risk score changes over time
+
+
 ## Usage
 
 1. Install dependencies:
