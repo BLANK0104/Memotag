@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results - Assessment History</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; overflow-x: auto; }
+        .search-params { background-color: #f5f5f5; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .table-section { margin-bottom: 30px; }
+        .nav-links { margin: 20px 0; }
+        .nav-links a { display: inline-block; margin-right: 15px; padding: 8px 15px; background-color: #3498db; color: white; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results</h1>
+        
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/search">New Search</a>
+        </div>
+        
+        <div class="search-params">
+            <h3>Search Parameters</h3>
+            <p><strong>Keyword:</strong> {{ keyword or 'None' }}</p>
+            <p><strong>Table:</strong> {{ table if table != 'all' else 'All tables' }}</p>
+            <p><strong>Date range:</strong> {{ date_from or 'Any' }} to {{ date_to or 'Any' }}</p>
+        </div>
+        
+        {% if results %}
+            {% for table_name, rows in results.items() %}
+                {% if rows %}
+                <div class="table-section">
+                    <h2>{{ table_name }} ({{ rows|length }} results)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                {% for column in rows[0].keys() %}
+                                <th>{{ column }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
+                            <tr>
+                                {% for value in row.values() %}
+                                <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No results found matching your search criteria.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

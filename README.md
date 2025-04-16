@@ -25,9 +25,16 @@ d:\Memotag\
   │   ├── models\               # ML/NLP models
   │   ├── visualization\        # Visualization utilities
   │   ├── reports\              # Report generation
-  │   └── utils\                # Helper functions
+  │   ├── utils\                # Helper functions
+  │   ├── web\                  # Web interface components
+  │   │   └── templates\        # Templates for web interface
+  │   └── tracking\             # Longitudinal tracking functionality
   ├── main.py                   # Entry point
+  ├── voice_analyzer.py         # Real-time voice analysis tool
+  ├── assessment_history_viewer.py  # Assessment history CLI viewer
+  ├── web_history_viewer.py     # Web interface for assessment history
   ├── config.py                 # Configuration settings
+  ├── assessment_history.db     # Database for assessment history
   └── requirements.txt          # Project dependencies
 ```
 
@@ -97,7 +104,7 @@ The system calculates a comprehensive **Risk Score** (0.0-1.0) that quantifies p
 
 The system now includes comprehensive longitudinal tracking capabilities:
 
-- **User Profiles**: Create and maintain profiles for each user
+- **User Profiles**: Create and maintain profiles for each user with personal information, assessment history, and personalized thresholds
 - **Session History**: Store and access historical assessment data
 - **Personalized Baselines**: Automatically calculate baseline values for each speech feature
 - **Change Detection**: Identify significant deviations from user's established baseline
@@ -118,6 +125,28 @@ To use longitudinal tracking:
    python src/reports/trend_viewer.py list     # List all users
    python src/reports/trend_viewer.py view <user_id>  # View trends for a specific user
    ```
+
+## Assessment History Viewer
+
+The module includes tools to view and analyze assessment history:
+
+1. Command-line interface:
+   ```
+   python assessment_history_viewer.py
+   ```
+   This displays tables and recent assessments from the database.
+
+2. Web interface:
+   ```
+   python web_history_viewer.py
+   ```
+   Then open your browser to http://127.0.0.1:5000
+
+The history viewer provides:
+- Table listing
+- Detailed data view with pagination
+- Search functionality with filtering by keyword and date
+- Historical trend analysis
 
 ## Real-Time Voice Analysis
 
@@ -166,6 +195,11 @@ Future improvements planned:
    - Establishing personalized baselines for each user
    - Generating trend reports to visualize cognitive changes
    - Alert system for significant pattern deviations
-4. Personalized baseline development
-5. Clinical validation studies
+4. ✅ Assessment history viewer - **IMPLEMENTED**
+   - Command-line interface for quick assessment review
+   - Web interface for comprehensive history analysis
+   - Search and filter functionality
+   - Data visualization for historical trends
+5. Personalized baseline development
+6. Clinical validation studies
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ table_name }} - Assessment History Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .pagination { margin: 20px 0; }
+        .pagination a, .pagination span { padding: 8px 16px; text-decoration: none; border: 1px solid #ddd; margin: 0 4px; }
+        .pagination a:hover { background-color: #ddd; }
+        .pagination .active { background-color: #3498db; color: white; border: 1px solid #3498db; }
+        .nav-links { margin: 20px 0; }
+        .nav-links a { display: inline-block; margin-right: 15px; padding: 8px 15px; background-color: #3498db; color: white; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Table: {{ table_name }}</h1>
+        
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/search">Search</a>
+        </div>
+        
+        <p>Showing records {{ (page-1) * per_page + 1 }} to {{ min(page * per_page, total_records) }} of {{ total_records }}</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    {% for column in columns %}
+                    <td>{{ row[column] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            {% if page > 1 %}
+            <a href="{{ url_for('view_table', table_name=table_name, page=page-1, per_page=per_page) }}">&laquo; Previous</a>
+            {% endif %}
+            
+            {% for p in range(max(1, page-2), min(total_pages+1, page+3)) %}
+            {% if p == page %}
+            <span class="active">{{ p }}</span>
+            {% else %}
+            <a href="{{ url_for('view_table', table_name=table_name, page=p, per_page=per_page) }}">{{ p }}</a>
+            {% endif %}
+            {% endfor %}
+            
+            {% if page < total_pages %}
+            <a href="{{ url_for('view_table', table_name=table_name, page=page+1, per_page=per_page) }}">Next &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
