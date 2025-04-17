@@ -94,81 +94,80 @@ curl -X POST http://localhost:8000/api/process-audio \
   -F "save_to_db=false"
 ```
 
+## API Base URLs
+
+- **Local Development**: http://localhost:8000
+- **Production**: https://api.memotag-service.com
+- **Staging**: https://staging-api.memotag-service.com
+- **Render Deployment**: https://memotag-8lja.onrender.com
+
 ## Deployment
 
-### AWS Elastic Beanstalk Deployment
+### Render Deployment
 
-1. Install the AWS EB CLI
-```bash
-pip install awsebcli
-```
+1. Create a Render account at https://render.com if you don't have one
 
-2. Initialize EB application
-```bash
-eb init -p python-3.9 memotag-api
-```
+2. Create a new Web Service
+   - Connect your GitHub repository
+   - Select the branch you want to deploy
+   - Set the build command: `pip install -r requirements.txt`
+   - Set the start command: `gunicorn src.api.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
+   - Choose the appropriate instance type
 
-3. Create an environment and deploy
-```bash
-eb create memotag-api-env
-```
+3. Set Environment Variables
+   - Add all required environment variables from your `.env` file
 
-4. For subsequent deployments
-```bash
-eb deploy
-```
+4. Deploy
+   - Render will automatically deploy your application
+   - For subsequent deployments, simply push to your selected branch
 
-### Google Cloud Platform Deployment
+### Deploying with Docker to Render
 
-1. Install the Google Cloud SDK
+1. Create a Render account at https://render.com if you don't have one
 
-2. Initialize gcloud
-```bash
-gcloud init
-```
+2. Create a new Web Service
+   - Connect your GitHub repository
+   - Select "Deploy from Dockerfile" option
+   - Select the branch you want to deploy
+   - Set environment variables as needed
 
-3. Deploy to App Engine
-```bash
-gcloud app deploy deployment/gcp/app.yaml
-```
-
-### Deploying with Docker to any Cloud Platform
-
-1. Build the Docker image
-```bash
-docker build -t memotag-api .
-```
-
-2. Tag the image for your container registry
-```bash
-# For AWS ECR
-docker tag memotag-api:latest [aws-account-id].dkr.ecr.[region].amazonaws.com/memotag-api:latest
-
-# For Google Container Registry
-docker tag memotag-api:latest gcr.io/[project-id]/memotag-api:latest
-```
-
-3. Push the image
-```bash
-# For AWS ECR
-docker push [aws-account-id].dkr.ecr.[region].amazonaws.com/memotag-api:latest
-
-# For Google Container Registry
-docker push gcr.io/[project-id]/memotag-api:latest
-```
-
-4. Deploy the container using your cloud platform's container service (AWS ECS, GKE, etc.)
+3. Deploy
+   - Render will automatically build and deploy your Docker container
+   - For subsequent deployments, simply push to your selected branch
 
 ## Continuous Integration / Continuous Deployment
 
-A sample GitHub Actions workflow is provided in `.github/workflows/ci-cd.yml` to:
+A GitHub Actions workflow is provided in `.github/workflows/ci-cd.yml` to:
 1. Run tests on pull requests
-2. Deploy to staging when merging to develop branch
-3. Deploy to production when merging to main branch
+2. Deploy to Render staging when merging to develop branch
+3. Deploy to Render production when merging to main branch
 
 ## Monitoring
 
 Once deployed, monitor the application using:
-- AWS CloudWatch (for AWS deployments)
-- Google Cloud Monitoring (for GCP deployments)
+- Render Dashboard for logs and metrics
 - Custom monitoring using the `/api/health` endpoint
+- Set up Render health checks to ensure your application is responsive
+
+## Testing Your Render Deployment
+
+After deploying to Render, test your API:
+
+1. **Test the Health Check Endpoint**:
+   ```bash
+   curl https://memotag-8lja.onrender.com/api/health
+   ```
+
+2. **Test the Process Audio Endpoint**:
+   ```bash
+   curl -X POST https://memotag-8lja.onrender.com/api/process-audio \
+     -F "file=@/path/to/sample.wav" \
+     -F "user_id=test_user_001" \
+     -F "assessment_type=cognitive" \
+     -F "save_to_db=false"
+   ```
+
+3. **Test Feature Importance Endpoint**:
+   ```bash
+   curl https://memotag-8lja.onrender.com/api/features/importance
+   ```
