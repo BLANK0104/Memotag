@@ -134,6 +134,17 @@ Now that you've deployed the Memotag API on Render and confirmed it's running (b
    - Upload a test audio file and click "Send"
    - Verify you receive a successful response with assessment results
 
+   Example Correct Request in Postman
+Method: POST
+URL: http://localhost:8000/api/process-audio (or your deployed URL)
+Headers:
+Content-Type: multipart/form-data
+Body:
+file: Upload a valid audio file.
+user_id: "test_user_001" (optional).
+assessment_type: "cognitive" (optional, default is "cognitive").
+save_to_db: "false" (optional, default is false).
+
 3. **Test Feature Importance Endpoint**:
    - Create a new GET request
    - Enter the URL: `https://memotag.onrender.com/api/features/importance`
