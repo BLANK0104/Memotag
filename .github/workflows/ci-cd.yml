@@ -36,9 +36,11 @@ jobs:
     - name: Deploy to Render Staging
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
+        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'srv-cjbcnq0rddl0l3q02mdg' }}  # Replace with your actual staging service ID if secrets are not set
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-production:
     needs: test
@@ -49,6 +51,8 @@ jobs:
     - name: Deploy to Render Production
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID }}
+        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'srv-cjbcnuorddl0l3q02mgg' }}  # Replace with your actual production service ID if secrets are not set
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
