@@ -27,51 +27,72 @@ jobs:
       run: |
         pytest
 
-  validate-render-config:
+  list-render-services:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     steps:
-      - name: Check Render API key
-        run: |
-          if [[ -z "${{ secrets.RENDER_API_KEY }}" ]]; then
-            echo "::error::RENDER_API_KEY is not set in GitHub secrets. Please add it following the instructions in docs/render_deployment_setup.md"
-            exit 1
-          else
-            echo "RENDER_API_KEY is configured correctly."
-          fi
+    - name: Check available Render services
+      id: check-services
+      run: |
+        echo "Checking all available services with your API key..."
+        RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" https://api.render.com/v1/services)
+        echo "Response from Render API:"
+        echo "$RESPONSE"
+        
+        # Extract service names and IDs for easier reading
+        echo "Available service names:"
+        echo "$RESPONSE" | grep -o '"name":"[^"]*"' || echo "No service names found or unable to parse response"
+        
+        echo "Available service IDs:"
+        echo "$RESPONSE" | grep -o '"id":"[^"]*"' || echo "No service IDs found or unable to parse response"
+        
+        # Check if memotag-8lja exists
+        if echo "$RESPONSE" | grep -q '"name":"memotag-8lja"'; then
+          echo "memotag-8lja service found!"
+          SERVICE_ID=$(echo "$RESPONSE" | grep -o '"id":"[^"]*"' | grep -A1 '"name":"memotag-8lja"' | head -1 | cut -d'"' -f4)
+          echo "Service ID for memotag-8lja: $SERVICE_ID"
+        else
+          echo "memotag-8lja service not found in your Render account."
+          echo "Please check the exact service name in your Render dashboard"
+        fi
 
-  deploy-staging:
-    needs: [test, validate-render-config]
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to Render Staging
-      uses: JorgeLNJunior/render-deploy@v1.4.3
-      with:
-        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'memotag-staging' }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        wait_deploy: true
-        clear_cache: true
-        deployment_environment: staging
-        github_deployment: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  deploy-production:
-    needs: [test, validate-render-config]
+  manual-deploy:
+    needs: [test, list-render-services]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Deploy to Render Production
-      uses: JorgeLNJunior/render-deploy@v1.4.3
-      with:
-        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'memotag-8lja' }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        wait_deploy: true
-        clear_cache: true
-        deployment_environment: production
-        github_deployment: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Deploy to Render using direct API
+      run: |
+        echo "Attempting to deploy using the direct Render API..."
+        DEPLOY_RESPONSE=$(curl -s -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          https://api.render.com/v1/services/memotag-8lja/deploys)
+        
+        echo "Deployment response:"
+        echo "$DEPLOY_RESPONSE"
+        
+        # Check if deployment was successful
+        if echo "$DEPLOY_RESPONSE" | grep -q '"id":'; then
+          echo "Deployment successfully triggered!"
+        else
+          echo "Failed to trigger deployment. Trying with srv- prefix..."
+          
+          # Try with common prefixes
+          DEPLOY_RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            https://api.render.com/v1/services/srv-memotag-8lja/deploys)
+            
+          echo "Secondary deployment response:"
+          echo "$DEPLOY_RESPONSE"
+          
+          if echo "$DEPLOY_RESPONSE" | grep -q '"id":'; then
+            echo "Secondary deployment successfully triggered!"
+          else
+            echo "Both deployment attempts failed. Please check your service name in the Render dashboard."
+            exit 1
+          fi
+        fi

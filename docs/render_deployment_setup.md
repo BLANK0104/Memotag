@@ -68,6 +68,29 @@ To securely use these values in your GitHub Actions workflow:
 
 6. **Save each secret** by clicking the "Add secret" button
 
+## Verifying Your API Key
+
+To verify your Render API key is working correctly:
+
+1. **Use curl to test the API** (make sure to replace YOUR_API_KEY with your actual key):
+   ```bash
+   curl -H "Authorization: Bearer YOUR_API_KEY" https://api.render.com/v1/services
+   ```
+
+2. **You should see a list of your services** in the response. This confirms your API key has the correct permissions.
+
+3. **Check specific service access** (replace SERVICE_NAME with your service name):
+   ```bash
+   curl -H "Authorization: Bearer YOUR_API_KEY" https://api.render.com/v1/services/SERVICE_NAME
+   ```
+   
+4. If you get a 404 error, try using the service ID format instead:
+   ```bash
+   curl -H "Authorization: Bearer YOUR_API_KEY" https://api.render.com/v1/services/srv-xxxxxxxxxxxx
+   ```
+
+> **Note**: Since April 2025, Render has updated its API to better support both service names and service IDs. Make sure your API key has sufficient permissions for both deployments and service queries.
+
 ## Automatic Deployments
 
 With these secrets set up, your GitHub Actions workflow will:

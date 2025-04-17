@@ -37,6 +37,36 @@ Run the analyzer with:
 python voice_analyzer.py
 ```
 
+## Web API Access
+
+You can also access the Memotag API through our deployed service:
+
+- **Deployed URL**: [https://memotag-8lja.onrender.com](https://memotag-8lja.onrender.com)
+
+### API Endpoints
+
+1. **Health Check**:
+   ```
+   GET https://memotag-8lja.onrender.com/api/health
+   ```
+
+2. **Process Audio**:
+   ```
+   POST https://memotag-8lja.onrender.com/api/process-audio
+   ```
+   Body (form-data):
+   - file: Audio file (.wav, .mp3, .m4a)
+   - user_id: User identifier (optional)
+   - assessment_type: "cognitive" (default)
+   - save_to_db: true/false (default: false)
+
+3. **Feature Importance**:
+   ```
+   GET https://memotag-8lja.onrender.com/api/features/importance
+   ```
+
+For full API documentation, please refer to `docs/postman_testing.md`.
+
 ## Usage Instructions
 
 1. When prompted, select a cognitive task from the list (1-5)
