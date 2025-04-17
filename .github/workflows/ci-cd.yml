@@ -27,8 +27,21 @@ jobs:
       run: |
         pytest
 
+  validate-render-config:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    steps:
+      - name: Check Render API key
+        run: |
+          if [[ -z "${{ secrets.RENDER_API_KEY }}" ]]; then
+            echo "::error::RENDER_API_KEY is not set in GitHub secrets. Please add it following the instructions in docs/render_deployment_setup.md"
+            exit 1
+          else
+            echo "RENDER_API_KEY is configured correctly."
+          fi
+
   deploy-staging:
-    needs: test
+    needs: [test, validate-render-config]
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     steps:
@@ -36,14 +49,14 @@ jobs:
     - name: Deploy to Render Staging
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'srv-cjbcnq0rddl0l3q02mdg' }}  # Replace with your actual staging service ID if secrets are not set
+        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'srv-cjbcnq0rddl0l3q02mdg' }}
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-production:
-    needs: test
+    needs: [test, validate-render-config]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +64,7 @@ jobs:
     - name: Deploy to Render Production
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'srv-cjbcnuorddl0l3q02mgg' }}  # Replace with your actual production service ID if secrets are not set
+        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'srv-cjbcnuorddl0l3q02mgg' }}
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
       env:
