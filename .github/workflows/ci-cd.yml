@@ -27,37 +27,57 @@ jobs:
       run: |
         pytest
 
-  list-render-services:
+  find-service-id:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    outputs:
+      service_id: ${{ steps.extract-id.outputs.service_id }}
     steps:
     - name: Check available Render services
-      id: check-services
+      id: list-services
       run: |
         echo "Checking all available services with your API key..."
         RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" https://api.render.com/v1/services)
-        echo "Response from Render API:"
-        echo "$RESPONSE"
+        echo "$RESPONSE" > services.json
         
-        # Extract service names and IDs for easier reading
-        echo "Available service names:"
-        echo "$RESPONSE" | grep -o '"name":"[^"]*"' || echo "No service names found or unable to parse response"
-        
+        # Extract service IDs
         echo "Available service IDs:"
-        echo "$RESPONSE" | grep -o '"id":"[^"]*"' || echo "No service IDs found or unable to parse response"
+        cat services.json | grep -o '"id":"[^"]*"' || echo "No service IDs found"
         
-        # Check if memotag-8lja exists
-        if echo "$RESPONSE" | grep -q '"name":"memotag-8lja"'; then
-          echo "memotag-8lja service found!"
-          SERVICE_ID=$(echo "$RESPONSE" | grep -o '"id":"[^"]*"' | grep -A1 '"name":"memotag-8lja"' | head -1 | cut -d'"' -f4)
-          echo "Service ID for memotag-8lja: $SERVICE_ID"
+        # Extract service names
+        echo "Available service names:"
+        cat services.json | grep -o '"name":"[^"]*"' || echo "No service names found"
+
+        # Look for service with URL memotag-8lja.onrender.com
+        cat services.json | grep -A 3 "memotag-8lja.onrender.com" || echo "Service URL not found"
+
+    - name: Extract service ID
+      id: extract-id
+      run: |
+        RESPONSE=$(cat services.json)
+        
+        # Try to find service by URL or substring match in the name
+        SERVICE_DATA=$(echo "$RESPONSE" | grep -A 10 "memotag" || echo "")
+        
+        if [ -z "$SERVICE_DATA" ]; then
+          echo "Could not find any service matching 'memotag'. Using fallback method."
+          # Just take the first service ID as fallback
+          SERVICE_ID=$(echo "$RESPONSE" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "")
         else
-          echo "memotag-8lja service not found in your Render account."
-          echo "Please check the exact service name in your Render dashboard"
+          # Extract the service ID
+          SERVICE_ID=$(echo "$SERVICE_DATA" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "")
+        fi
+        
+        if [ -z "$SERVICE_ID" ]; then
+          echo "No service ID found. Please check your Render API key and account."
+          exit 1
+        else
+          echo "Found service ID: $SERVICE_ID"
+          echo "service_id=$SERVICE_ID" >> $GITHUB_OUTPUT
         fi
 
-  manual-deploy:
-    needs: [test, list-render-services]
+  deploy:
+    needs: [test, find-service-id]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -65,11 +85,11 @@ jobs:
     
     - name: Deploy to Render using direct API
       run: |
-        echo "Attempting to deploy using the direct Render API..."
+        echo "Deploying service with ID: ${{ needs.find-service-id.outputs.service_id }}"
         DEPLOY_RESPONSE=$(curl -s -X POST \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
-          https://api.render.com/v1/services/memotag-8lja/deploys)
+          https://api.render.com/v1/services/${{ needs.find-service-id.outputs.service_id }}/deploys)
         
         echo "Deployment response:"
         echo "$DEPLOY_RESPONSE"
@@ -78,21 +98,7 @@ jobs:
         if echo "$DEPLOY_RESPONSE" | grep -q '"id":'; then
           echo "Deployment successfully triggered!"
         else
-          echo "Failed to trigger deployment. Trying with srv- prefix..."
-          
-          # Try with common prefixes
-          DEPLOY_RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            https://api.render.com/v1/services/srv-memotag-8lja/deploys)
-            
-          echo "Secondary deployment response:"
-          echo "$DEPLOY_RESPONSE"
-          
-          if echo "$DEPLOY_RESPONSE" | grep -q '"id":'; then
-            echo "Secondary deployment successfully triggered!"
-          else
-            echo "Both deployment attempts failed. Please check your service name in the Render dashboard."
-            exit 1
-          fi
+          echo "Deployment failed. Please check the error message and your service ID."
+          echo "Error: $DEPLOY_RESPONSE"
+          exit 1
         fi
