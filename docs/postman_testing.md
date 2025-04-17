@@ -115,3 +115,28 @@ If you encounter errors:
 - **Local Development**: http://localhost:8000
 - **Production**: https://api.memotag-service.com
 - **Staging**: https://staging-api.memotag-service.com
+- **Render Deployment**: https://memotag.onrender.com
+
+## Testing Your Render Deployment
+
+Now that you've deployed the Memotag API on Render and confirmed it's running (by seeing the `{"message":"Speech Analyzer API is running"}` message), follow these steps to fully test the deployment:
+
+1. **Test the Health Check Endpoint**:
+   - Open Postman and create a new GET request
+   - Enter the URL: `https://memotag.onrender.com/api/health`
+   - Click "Send" and verify you receive a 200 response with `{"status":"healthy"}`
+
+2. **Test the Audio Processing Endpoint**:
+   - Create a new POST request
+   - Enter the URL: `https://memotag.onrender.com/api/process-audio`
+   - In the "Body" tab, select "form-data"
+   - Add the key-value pairs as described in the Testing Steps section
+   - Upload a test audio file and click "Send"
+   - Verify you receive a successful response with assessment results
+
+3. **Test Feature Importance Endpoint**:
+   - Create a new GET request
+   - Enter the URL: `https://memotag.onrender.com/api/features/importance`
+   - Click "Send" and verify you receive the feature importance data
+
+If any tests fail, review the Troubleshooting section for common issues and solutions.
