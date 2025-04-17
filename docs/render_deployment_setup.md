@@ -20,6 +20,8 @@ Each service in Render has a unique identifier. You need these IDs for your GitH
    srv-cjbcnq0rddl0l3q02mdg
    ```
 
+   > **Important**: For some Render services, you might need to use the service name instead of the service ID. If you see an "Unable to find the requested resource" error, try using the service name (e.g., `memotag-8lja` or `memotag-staging`) instead of the service ID.
+
 ## Getting Your Render API Key (REQUIRED)
 
 The API key is **required** for CI/CD deployment. Without it, the deployment will fail with an error: "Input required and not supplied: api_key".
@@ -59,10 +61,10 @@ To securely use these values in your GitHub Actions workflow:
      Value: Your Render API key (copied in the previous section)
    
    - Name: `RENDER_STAGING_SERVICE_ID`  
-     Value: Your staging service ID
+     Value: Your staging service ID or name (e.g., `srv-cjbcnq0rddl0l3q02mdg` or `memotag-staging`)
 
    - Name: `RENDER_PRODUCTION_SERVICE_ID`  
-     Value: Your production service ID
+     Value: Your production service ID or name (e.g., `srv-cjbcnuorddl0l3q02mgg` or `memotag-8lja`)
 
 6. **Save each secret** by clicking the "Add secret" button
 
@@ -74,6 +76,31 @@ With these secrets set up, your GitHub Actions workflow will:
 - Deploy to your production environment when code is merged into the `main` branch
 
 ## Troubleshooting
+
+### "Unable to find the requested resource" Error
+
+If you encounter this error:
+
+1. **Check if you're using the correct identifier** for your Render service:
+   - Some Render API operations require the service name (e.g., `memotag-8lja`) instead of the service ID
+   - Try updating your GitHub secret with the service name instead of the service ID
+
+2. **Verify API key permissions**:
+   - Ensure your API key has permission to access the specific service
+   - If needed, generate a new API key with full permissions
+
+3. **Confirm service existence**:
+   - Double-check that the service exists in your Render account
+   - Verify that you're looking at the correct team/account if you have access to multiple accounts
+
+4. **Test the API manually**:
+   You can test your API key and service ID with curl:
+   ```bash
+   curl -H "Authorization: Bearer YOUR_API_KEY" https://api.render.com/v1/services/YOUR_SERVICE_ID
+   ```
+   If this returns a 404 error, you're using an incorrect service ID or name.
+
+### API Key Issues
 
 If you encounter the error "Input required and not supplied: api_key":
 
@@ -106,16 +133,11 @@ If you're unable to set up CI/CD with GitHub Actions, you can deploy manually:
 
 This will trigger a new deployment of your application on Render.
 
-## Fallback Service IDs
+## Current Configuration
 
-The workflow includes fallback service IDs in case the secrets are not configured. Replace these with your actual service IDs if you prefer not to use GitHub secrets:
+The workflow has been configured with the following fallback values:
 
-```yaml
-service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'srv-cjbcnq0rddl0l3q02mdg' }}
-```
+- **Staging**: `memotag-staging` (service name)
+- **Production**: `memotag-8lja` (service name)
 
-```yaml
-service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'srv-cjbcnuorddl0l3q02mgg' }}
-```
-
-However, there is **no fallback for the API key** as it must be kept secure and cannot be stored in the workflow file.
+Update these values in the GitHub secrets or in the CI/CD workflow file if they don't match your actual service names.

@@ -49,9 +49,12 @@ jobs:
     - name: Deploy to Render Staging
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'srv-cjbcnq0rddl0l3q02mdg' }}
+        service_id: ${{ secrets.RENDER_STAGING_SERVICE_ID || 'memotag-staging' }}
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
+        clear_cache: true
+        deployment_environment: staging
+        github_deployment: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -64,8 +67,11 @@ jobs:
     - name: Deploy to Render Production
       uses: JorgeLNJunior/render-deploy@v1.4.3
       with:
-        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'srv-cjbcnuorddl0l3q02mgg' }}
+        service_id: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID || 'memotag-8lja' }}
         api_key: ${{ secrets.RENDER_API_KEY }}
         wait_deploy: true
+        clear_cache: true
+        deployment_environment: production
+        github_deployment: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
