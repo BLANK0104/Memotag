@@ -52,19 +52,57 @@ def list_users():
         print("{:<20} {:<20} {:<5} {:<8} {:<12} {:<20}".format(
             user_id, name_str, age_str, gender_str, assessment_count, last_date))
 
-def view_user_trends(user_id, days=90):
+def manage_baseline(user_id, action, days=30):
+    """Manage personalized baseline for a specific user"""
+    tracker = LongitudinalTracker()
+    
+    if action == 'create':
+        # Create a new baseline for the user based on the specified days
+        print(f"Creating baseline for user {user_id} using the past {days} days of data...")
+        success, message = tracker.create_baseline(user_id, days=days)
+        if success:
+            print(f"Baseline created successfully: {message}")
+        else:
+            print(f"Failed to create baseline: {message}")
+    
+    elif action == 'view':
+        # View the current baseline for the user
+        print(f"Fetching baseline data for user {user_id}...")
+        baseline_data = tracker.get_baseline(user_id)
+        
+        if baseline_data is not None and not baseline_data.empty:
+            print("\n--- Current Baseline Values ---")
+            print(f"Created on: {baseline_data['created_date'].iloc[0]}")
+            print(f"Based on data from: {baseline_data['start_date'].iloc[0]} to {baseline_data['end_date'].iloc[0]}")
+            print("\nBaseline metrics:")
+            
+            for feature, value in baseline_data[['feature_name', 'baseline_value', 'variability']].iterrows():
+                feature_name = value['feature_name'].replace('_', ' ').title()
+                print(f"- {feature_name}: {value['baseline_value']:.2f} (±{value['variability']:.2f})")
+        else:
+            print(f"No baseline found for user {user_id}. Use 'create' to establish a baseline.")
+    
+    elif action == 'update':
+        # Update the baseline for the user
+        print(f"Updating baseline for user {user_id} using the past {days} days of data...")
+        success, message = tracker.update_baseline(user_id, days=days)
+        if success:
+            print(f"Baseline updated successfully: {message}")
+        else:
+            print(f"Failed to update baseline: {message}")
+
+def view_user_trends(user_id, days=90, use_baseline=True):
     """View trends for a specific user"""
     tracker = LongitudinalTracker()
     
-    # Generate and display trend report
     print(f"\nGenerating trend report for user {user_id} over the past {days} days...")
-    report_path = tracker.generate_trend_report(user_id, days=days)
+    report_path = tracker.generate_trend_report(user_id, days=days, use_baseline=use_baseline)
     
     if report_path:
         print(f"Trend report generated: {report_path}")
         
         # Get alerts for this user
-        alerts = tracker.get_alerts(user_id, days=days)
+        alerts = tracker.get_alerts(user_id, days=days, use_baseline=use_baseline)
         if not alerts.empty:
             print("\nAlerts detected during this period:")
             for _, alert in alerts.iterrows():
@@ -72,7 +110,13 @@ def view_user_trends(user_id, days=90):
                 feature = alert['feature_name'].replace('_', ' ').title()
                 date = pd.to_datetime(alert['timestamp']).strftime('%Y-%m-%d')
                 direction = "increase" if alert['deviation_value'] > 0 else "decrease"
-                print(f"- [{date}] {severity}: {feature} showed {abs(alert['deviation_value']):.2f} {direction}")
+                
+                # Include baseline reference if available
+                if use_baseline and 'baseline_value' in alert:
+                    print(f"- [{date}] {severity}: {feature} showed {abs(alert['deviation_value']):.2f} {direction} " 
+                          f"(baseline: {alert['baseline_value']:.2f} ±{alert['baseline_variability']:.2f})")
+                else:
+                    print(f"- [{date}] {severity}: {feature} showed {abs(alert['deviation_value']):.2f} {direction}")
         
         # Display the trend visualization
         try:
@@ -99,13 +143,26 @@ def main():
     view_parser = subparsers.add_parser('view', help='View trends for a specific user')
     view_parser.add_argument('user_id', help='User ID to view trends for')
     view_parser.add_argument('--days', type=int, default=90, help='Number of days to analyze (default: 90)')
+    view_parser.add_argument('--no-baseline', action='store_false', dest='use_baseline',
+                          help='Disable personalized baseline comparison')
+    view_parser.set_defaults(use_baseline=True)
+    
+    # Baseline management command
+    baseline_parser = subparsers.add_parser('baseline', help='Manage personalized baselines')
+    baseline_parser.add_argument('user_id', help='User ID to manage baseline for')
+    baseline_parser.add_argument('action', choices=['create', 'view', 'update'], 
+                              help='Action to perform on the baseline')
+    baseline_parser.add_argument('--days', type=int, default=30, 
+                              help='Days of data to use for baseline creation/update (default: 30)')
     
     args = parser.parse_args()
     
     if args.command == 'list':
         list_users()
     elif args.command == 'view' and args.user_id:
-        view_user_trends(args.user_id, args.days)
+        view_user_trends(args.user_id, args.days, args.use_baseline)
+    elif args.command == 'baseline' and args.user_id:
+        manage_baseline(args.user_id, args.action, args.days)
     else:
         parser.print_help()
 
